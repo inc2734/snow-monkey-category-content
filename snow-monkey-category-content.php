@@ -19,6 +19,34 @@ define( 'SNOW_MONKEY_CATEGORY_CONTENT_URL', untrailingslashit( plugin_dir_url( _
 define( 'SNOW_MONKEY_CATEGORY_CONTENT_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
 class Bootstrap {
+
+	public function __construct() {
+		add_action( 'plugins_loaded', [ $this, '_plugins_loaded' ] );
+	}
+
+	public function _plugins_loaded() {
+		load_plugin_textdomain( 'snow-monkey-category-content', false, basename( __DIR__ ) . '/languages' );
+
+		$theme = wp_get_theme();
+		if ( 'snow-monkey' !== $theme->template && 'snow-monkey/resources' !== $theme->template ) {
+			return;
+		}
+
+		add_action( 'init', [ $this, '_activate_autoupdate' ] );
+	}
+
+	/**
+	 * Activate auto update using GitHub
+	 *
+	 * @return void
+	 */
+	public function _activate_autoupdate() {
+		new \Inc2734\WP_GitHub_Plugin_Updater\Bootstrap(
+			plugin_basename( __FILE__ ),
+			'inc2734',
+			'snow-monkey-category-content'
+		);
+	}
 }
 
 require_once( SNOW_MONKEY_CATEGORY_CONTENT_PATH . '/vendor/autoload.php' );
