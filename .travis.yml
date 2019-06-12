@@ -32,3 +32,13 @@ before_deploy:
 - npm run zip
 - ls -la snow-monkey-category-content.zip
 - export RELEASE_FILE=$(ls snow-monkey-category-content.zip)
+deploy:
+  provider: releases
+  api_key:
+    secure: uhVYEPuG6aH7zfnS5Qu+KLoY0r6N7RncHVwSYnbhGGyw5r+CWZ6aCvwbyq1iqSPVHLLLzgXMSnmAEkSWYv8qGngYFwiYQ5XPQ9lPQu65p+7mzkpi8VDaG2WbvgHxGbmkL2OcSZ0aNha/H7/p8PgeOIYMLGpHP73LzRWsXrS7KVVIZvRN+pBd2AGqfIvJyJzBVU4TOkseRGbmgLBn9jgKEcwlJLOTmKimAO8wMKMmpaoP89fo+u1aqMs/BNRcw2JsBOaRUpz4mCtqkC8XPI9cVQI/80O1OAl0XtkxKcrLzm7whitPbJ58KVkCXhzpPuaAst9shB6mlviigkyHoBaaotbVgEDnORl6M4ZQrmwhhm01Y91a6/qEAPyqryl8OKH/VUFhWPW8dQdWTqrHixdbatOPAeMbxKdXmhVm8a1hRlGWgrmF/dshAK9in/HEZhJ7tXDodlvAjqe4auY9QB/u6ZpoNATjYLWYiP6E1VJxlpQbA3X7GP1ah+wKc3HvQ6zfuiBk/OK1bBd5KjyYDs4N2gSY0zqIz+QKqViPP9ufXNmZuEx2IKW5pMSIp0kDI4IyDnzTU6XFYYl2PNrClDRyAUjR26nuQmdLV0v9rwvK8S8x2XXA9RjMJ2EXzjaK4q678jEfG1EjZkXZLao4xpoDFiJZlyrBOrX5FRZahGEn6sM=
+  file: "${RELEASE_FILE}"
+  skip_cleanup: true
+  on:
+    tags: true
+    php: 7.3
+    repo: inc2734/snow-monkey-category-content
