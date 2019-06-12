@@ -1,0 +1,14 @@
+{
+  "author": "inc2734",
+  "license": "GPL-2.0+",
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "^2.6.3"
+  },
+  "scripts": {
+    "clean:zip": "rimraf snow-monkey-category-content.zip",
+    "zip:pack": "rsync -a --exclude='/vendor' --exclude='/node_modules' --exclude='.*' --exclude='*.config.js' --exclude='*.xml.dist' --exclude='/bin' --exclude='/tests' --exclude='package*.json' . snow-monkey-category-content && cd snow-monkey-category-content && composer install --no-dev",
+    "zip:archive": "zip -9 -qmr snow-monkey-category-content.zip snow-monkey-category-content",
+    "zip": "npm run clean:zip && npm run zip:pack && npm run zip:archive"
+  }
+}
