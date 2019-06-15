@@ -25,29 +25,38 @@ class Helper {
 	}
 
 	/**
-	 * Return public root pages
+	 * Return draft root pages
 	 *
 	 * @return array
 	 */
-	public static function get_pages() {
-		return get_pages(
+	public static function get_draft_pages() {
+		$pages = wp_cache_get( 'snow-monkey-category-content-draft-pages' );
+		if ( is_array( $pages ) ) {
+			return $pages;
+		}
+
+		$pages = get_pages(
 			[
-				'parent' => 0,
+				'parent'      => 0,
+				'post_status' => 'draft',
 			]
 		);
+
+		wp_cache_set( 'snow-monkey-category-content-draft-pages', $pages );
+		return $pages;
 	}
 
 	/**
-	 * Return all categories
+	 * Return all terms
 	 */
-	public static function get_all_categories() {
-		$terms = wp_cache_get( 'all-categories' );
-		if ( false !== $terms ) {
+	public static function get_terms( $taxonomy ) {
+		$terms = wp_cache_get( 'snow-monkey-category-content-terms-' . $taxonomy );
+		if ( is_array( $terms ) ) {
 			return $terms;
 		}
 
-		$terms = get_terms( [ 'category' ] );
-		wp_cache_set( 'all-categories', $terms );
+		$terms = get_terms( [ $taxonomy ] );
+		wp_cache_set( 'snow-monkey-category-content-terms-' . $taxonomy, $terms );
 		return $terms;
 	}
 
@@ -55,13 +64,6 @@ class Helper {
 	 * Return meta name of the category
 	 */
 	public static function get_term_meta_name( $key, $term ) {
-		return $term->taxonomy . '-category-content-' . $term->term_id . '-' . $key;
-	}
-
-	/**
-	 * Return meta name of the page
-	 */
-	public static function get_page_meta_name( $key ) {
-		return 'snow-monkey-category-content-' . $key;
+		return 'snow-monkey-category-content-' . $term->taxonomy . '-' . $term->term_id . '-' . $key;
 	}
 }

@@ -13,8 +13,8 @@ class Uninstall_Test extends WP_UnitTestCase {
 
 		wp_set_object_terms( $post_id, $category_ids, 'category' );
 
-		$terms = Helper::get_all_categories();
-		$pages = Helper::get_pages();
+		$terms = Helper::get_terms( 'category' );
+		$pages = Helper::get_draft_pages();
 
 		foreach ( $terms as $term ) {
 			set_theme_mod( Helper::get_term_meta_name( 'page-id', $term ), $page_id );
@@ -26,28 +26,4 @@ class Uninstall_Test extends WP_UnitTestCase {
 			$this->assertFalse( get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) ) );
 		}
 	}
-
-		/**
-		 * @test
-		 */
-		public function uninstall_page_meta() {
-			$category_id = $this->factory()->category->create();
-			$post_id     = $this->factory()->post->create( [ 'post_type' => 'post' ] );
-			$page_id     = $this->factory()->post->create( [ 'post_type' => 'page' ] );
-
-			wp_set_object_terms( $post_id, $category_id, 'category' );
-
-			$terms = Helper::get_all_categories();
-			$pages = Helper::get_pages();
-
-			foreach ( $pages as $page ) {
-				update_post_meta( $page->ID, Helper::get_page_meta_name( 'category-id' ), $category_id );
-			}
-
-			\Snow_Monkey\Plugin\CategoryContent\uninstall_callback();
-
-			foreach ( $pages as $page ) {
-				$this->assertSame( '', get_post_meta( $page->ID, Helper::get_page_meta_name( 'category-id' ), true ) );
-			}
-		}
 }

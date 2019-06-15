@@ -17,6 +17,7 @@
 namespace Snow_Monkey\Plugin\CategoryContent;
 
 use Snow_Monkey\Plugin\CategoryContent\App\Helper;
+use Framework;
 
 define( 'SNOW_MONKEY_CATEGORY_CONTENT_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 define( 'SNOW_MONKEY_CATEGORY_CONTENT_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -40,9 +41,6 @@ class Bootstrap {
 
 		add_filter( 'snow_monkey_template_part_render', [ $this, '_replace_content' ], 10, 2 );
 		add_filter( 'document_title_parts', [ $this, '_replace_title' ] );
-
-		add_action( 'customize_register', [ $this, '_save_page_meta' ] );
-		add_action( 'template_redirect', [ $this, '_redirect' ] );
 	}
 
 	/**
@@ -77,14 +75,14 @@ class Bootstrap {
 			return $html;
 		}
 
-		if ( ! is_category() ) {
+		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
 			return $html;
 		}
 
 		$term    = get_queried_object();
 		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
 
-		if ( ! $page_id || 'publish' !== get_post_status( $page_id ) ) {
+		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
 			return $html;
 		}
 
@@ -108,77 +106,19 @@ class Bootstrap {
 	 * @return array
 	 */
 	public function _replace_title( $title ) {
-		if ( ! is_category() ) {
+		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
 			return $title;
 		}
 
 		$term    = get_queried_object();
 		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
 
+		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
+			return $title;
+		}
+
 		$title['title'] = get_the_title( $page_id );
 		return $title;
-	}
-
-	/**
-	 * Save page meta
-	 *
-	 * @return void
-	 */
-	public function _save_page_meta() {
-		$terms = Helper::get_all_categories();
-
-		foreach ( $terms as $term ) {
-			$name = Helper::get_term_meta_name( 'page-id', $term );
-
-			/**
-			 * @param int $value Page ID
-			 * @param int $old_value Page ID
-			 * @return mixed
-			 */
-			add_filter(
-				"pre_set_theme_mod_{$name}",
-				function( $value, $old_value ) use ( $term ) {
-					delete_post_meta( $old_value, Helper::get_page_meta_name( 'category-id' ) );
-
-					if ( 0 === $value || '0' === $value ) {
-						delete_post_meta( $value, Helper::get_page_meta_name( 'category-id' ) );
-						return $value;
-					}
-
-					update_post_meta(
-						$value,
-						Helper::get_page_meta_name( 'category-id' ),
-						[
-							'taxonomy' => $term->taxonomy,
-							'term_id'  => $term->term_id,
-						]
-					);
-
-					return $value;
-				},
-				10,
-				2
-			);
-		}
-	}
-
-	/**
-	 * Redirect page to category archive
-	 *
-	 * @return void
-	 */
-	public function _redirect() {
-		if ( ! is_page() ) {
-			return;
-		}
-
-		$category = get_post_meta( get_the_ID(), Helper::get_page_meta_name( 'category-id' ), true );
-		if ( ! $category ) {
-			return;
-		}
-
-		wp_safe_redirect( get_term_link( $category['term_id'], $category['taxonomy'] ) );
-		exit;
 	}
 }
 
@@ -191,15 +131,12 @@ new Bootstrap();
  * @return void
  */
 function uninstall_callback() {
-	$terms = Helper::get_all_categories();
-	$pages = Helper::get_pages();
+	$categories = Helper::get_terms( 'category' );
+	$post_tags  = Helper::get_terms( 'post_tag' );
+	$terms      = array_merge( $categories, $post_tags );
 
 	foreach ( $terms as $term ) {
 		remove_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
-	}
-
-	foreach ( $pages as $page ) {
-		delete_post_meta( $page->ID, Helper::get_page_meta_name( 'category-id' ) );
 	}
 }
 
