@@ -41,6 +41,8 @@ class Bootstrap {
 
 		add_filter( 'snow_monkey_template_part_render', [ $this, '_replace_content' ], 10, 2 );
 		add_filter( 'document_title_parts', [ $this, '_replace_title' ] );
+
+		add_action( 'wp_head', [ $this, '_display_page_title' ] );
 	}
 
 	/**
@@ -120,6 +122,23 @@ class Bootstrap {
 		$title['title'] = get_the_title( $page_id );
 		return $title;
 	}
+
+	public function _display_page_title() {
+		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
+			return;
+		}
+
+		$term = get_queried_object();
+		$display_title = get_theme_mod( Helper::get_term_meta_name( 'display-title', $term ) );
+		if ( $display_title ) {
+			return;
+		}
+		?>
+		<style id="snow-monkey-category-content-style">
+		.c-entry__header { display: none; }
+		</style>
+		<?php
+	}
 }
 
 require_once( SNOW_MONKEY_CATEGORY_CONTENT_PATH . '/vendor/autoload.php' );
@@ -137,6 +156,7 @@ function uninstall_callback() {
 
 	foreach ( $terms as $term ) {
 		remove_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		remove_theme_mod( Helper::get_term_meta_name( 'display-title', $term ) );
 	}
 }
 
