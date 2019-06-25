@@ -42,7 +42,9 @@ class Bootstrap {
 		add_filter( 'snow_monkey_template_part_render', [ $this, '_replace_content' ], 10, 2 );
 		add_filter( 'document_title_parts', [ $this, '_replace_title' ] );
 
-		add_action( 'wp_head', [ $this, '_display_page_title' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, '_wp_enqueue_scripts' ], 100 );
+		add_action( 'wp_head', [ $this, '_hide_page_title' ] );
+		add_action( 'admin_bar_menu', [ $this, '_admin_bar_menu' ], 100 );
 	}
 
 	/**
@@ -123,7 +125,30 @@ class Bootstrap {
 		return $title;
 	}
 
-	public function _display_page_title() {
+	/**
+	 * Enqueue assets
+	 *
+	 * @return void
+	 */
+	public function _wp_enqueue_scripts() {
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'snow-monkey-category-content',
+			SNOW_MONKEY_CATEGORY_CONTENT_URL . '/dist/css/app.min.css',
+			[],
+			filemtime( SNOW_MONKEY_CATEGORY_CONTENT_PATH . '/dist/css/app.min.css' )
+		);
+	}
+
+	/**
+	 * Hide page title
+	 *
+	 * @return void
+	 */
+	public function _hide_page_title() {
 		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
 			return;
 		}
@@ -138,6 +163,33 @@ class Bootstrap {
 		.c-entry__header { display: none; }
 		</style>
 		<?php
+	}
+
+	/**
+	 * Add edit page link to adminbar
+	 *
+	 * @param WP_Admin_Bar $wp_adminbar
+	 * @return void
+	 */
+	public function _admin_bar_menu( $wp_adminbar ) {
+		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
+			return;
+		}
+
+		$term    = get_queried_object();
+		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+
+		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
+			return;
+		}
+
+		$wp_adminbar->add_node(
+			[
+				'id'    => 'snow-monkey-category-content-edit-page',
+				'title' => __( 'Edit the page used as content', 'snow-monkey-category-content' ),
+				'href'  => get_edit_post_link( $page_id, 'url' ),
+			]
+		);
 	}
 }
 
