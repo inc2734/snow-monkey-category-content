@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Snow Monkey Category Content\n"
-"POT-Creation-Date: 2019-06-17 10:29+0900\n"
-"PO-Revision-Date: 2019-06-17 10:29+0900\n"
+"POT-Creation-Date: 2019-06-25 11:38+0900\n"
+"PO-Revision-Date: 2019-06-25 11:38+0900\n"
 "Last-Translator: inc2734 <inc@2inc.org>\n"
 "Language-Team: inc2734 <inc@2inc.org>\n"
 "Language: ja\n"
@@ -40,6 +40,10 @@ msgstr "コンテンツとして使用されるページ"
 #: customizer/design/sections/post-tag/controls/page-id.php:28
 msgid "You can select from the draft pages."
 msgstr "下書きの固定ページから選択できます。"
+
+#: snow-monkey-category-content.php:189
+msgid "Edit the page used as content"
+msgstr "コンテンツ用ページを編集"
 
 #. Plugin Name of the plugin/theme
 msgid "Snow Monkey Category Content"
