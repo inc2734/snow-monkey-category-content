@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Snow Monkey Category Content\n"
-"POT-Creation-Date: 2019-06-26 11:18+0900\n"
-"PO-Revision-Date: 2019-06-26 11:18+0900\n"
+"POT-Creation-Date: 2019-06-26 11:26+0900\n"
+"PO-Revision-Date: 2019-06-26 11:26+0900\n"
 "Last-Translator: inc2734 <inc@2inc.org>\n"
 "Language-Team: inc2734 <inc@2inc.org>\n"
 "Language: ja\n"
@@ -48,8 +48,7 @@ msgstr "下書きの固定ページから選択できます。"
 #: customizer/design/sections/category/controls/remove-top-margin.php:19
 #: customizer/design/sections/post-tag/controls/remove-top-margin.php:19
 msgid "Remove top margin of the content"
-msgstr "コンテンツの上の余白を削除"
-
+msgstr "コンテンツ上部の余白を削除"
 
 #. Plugin Name of the plugin/theme
 msgid "Snow Monkey Category Content"
