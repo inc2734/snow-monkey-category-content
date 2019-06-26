@@ -50,6 +50,7 @@ msgstr "下書きの固定ページから選択できます。"
 msgid "Remove top margin of the content"
 msgstr "コンテンツの上の余白を削除"
 
+
 #. Plugin Name of the plugin/theme
 msgid "Snow Monkey Category Content"
 msgstr "Snow Monkey Category Content"
