@@ -12,6 +12,10 @@ use Snow_Monkey\Plugin\CategoryContent\App\Helper;
 class Front {
 
 	public function __construct() {
+		if ( is_search() ) {
+			return;
+		}
+
 		if ( ! is_category() && ! is_tag() ) {
 			return;
 		}
@@ -52,7 +56,7 @@ class Front {
 
 		return str_replace(
 			'<div class="c-entry__body">',
-			'<div class="c-entry__body"><div class="p-entry-content">' . $content . '</div>',
+			'<div class="c-entry__body" id="snow-monkey-category-content-body"><div class="p-entry-content">' . $content . '</div>',
 			$html
 		);
 	}
