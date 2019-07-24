@@ -7,6 +7,8 @@
 
 namespace Snow_Monkey\Plugin\CategoryContent\App;
 
+use Framework\Helper as Snow_Monkey_Helper;
+
 class Helper {
 
 	/**
@@ -50,14 +52,14 @@ class Helper {
 	 * Return all terms
 	 */
 	public static function get_terms( $taxonomy ) {
-		$terms = wp_cache_get( 'snow-monkey-category-content-terms-' . $taxonomy );
-		if ( is_array( $terms ) ) {
-			return $terms;
-		}
+		return Snow_Monkey_Helper::get_terms( $taxonomy );
+	}
 
-		$terms = get_terms( [ $taxonomy ] );
-		wp_cache_set( 'snow-monkey-category-content-terms-' . $taxonomy, $terms );
-		return $terms;
+	/**
+	 * Return all taxonomies
+	 */
+	public static function get_taxonomies() {
+		return Snow_Monkey_Helper::get_taxonomies();
 	}
 
 	/**

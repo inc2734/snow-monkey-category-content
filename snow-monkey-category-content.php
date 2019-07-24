@@ -84,6 +84,11 @@ function uninstall_callback() {
 	$post_tags  = Helper::get_terms( 'post_tag' );
 	$terms      = array_merge( $categories, $post_tags );
 
+	$taxonomies = Helper::get_taxonomies();
+	foreach ( $taxonomies as $_taxonomy ) {
+		$terms = array_merge( $terms, Helper::get_terms( $_taxonomy ) );
+	}
+
 	foreach ( $terms as $term ) {
 		remove_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
 		remove_theme_mod( Helper::get_term_meta_name( 'display-title', $term ) );

@@ -16,7 +16,7 @@ class Front {
 			return;
 		}
 
-		if ( ! is_category() && ! is_tag() ) {
+		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
 			return;
 		}
 
