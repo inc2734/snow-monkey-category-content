@@ -35,6 +35,9 @@ class Bootstrap {
 		if ( 'snow-monkey' !== $theme->template && 'snow-monkey/resources' !== $theme->template ) {
 			return;
 		}
+		if ( ! version_compare( $theme->get( 'Version' ), '7.0.0', '>=' ) ) {
+			return;
+		}
 
 		add_action( 'init', [ $this, '_activate_autoupdate' ] );
 		add_action( 'snow_monkey_post_load_customizer', [ $this, '_load_customizer' ] );
