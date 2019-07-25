@@ -26,6 +26,7 @@ class Front {
 		add_action( 'wp_enqueue_scripts', [ $this, '_wp_enqueue_scripts' ], 100 );
 		add_action( 'wp_head', [ $this, '_hide_page_title' ] );
 		add_action( 'wp_head', [ $this, '_remove_top_margin' ] );
+		add_action( 'wp_head', [ $this, '_remove_term_description' ] );
 		add_action( 'admin_bar_menu', [ $this, '_admin_bar_menu' ], 100 );
 	}
 
@@ -133,6 +134,25 @@ class Front {
 		?>
 		<style id="snow-monkey-category-content-style-remove-top-margin">
 		.l-contents__inner, .l-contents__main > .c-entry { margin-top: 0 !important; }
+		</style>
+		<?php
+	}
+
+	/**
+	 * Remove term-description
+	 *
+	 * @return void
+	 */
+	public function _remove_term_description() {
+		$term    = get_queried_object();
+		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+
+		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
+			return;
+		}
+		?>
+		<style id="snow-monkey-category-content-style-remove-term-description">
+		.p-term-description { display: none !important; }
 		</style>
 		<?php
 	}
