@@ -48,6 +48,10 @@ class Front {
 			return $html;
 		}
 
+		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+		global $post;
+		$post = get_post( $page_id );
+		// phpcs:enable
 		setup_postdata( $page_id );
 		ob_start();
 		the_content();
