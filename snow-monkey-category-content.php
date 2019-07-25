@@ -2,7 +2,7 @@
 /**
  * Plugin name: Snow Monkey Category Content
  * Description: Require Snow Monkey v7 or more
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: inc2734
  * Author URI: https://2inc.org
  * License: GPL2 or later
