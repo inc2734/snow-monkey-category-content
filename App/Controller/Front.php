@@ -49,19 +49,30 @@ class Front {
 			return $html;
 		}
 
+		$query = new \WP_Query(
+			[
+				'page_id' => $page_id,
+			]
+		);
+
 		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
-		global $post;
-		$post = get_post( $page_id );
-		// phpcs:enable
-		setup_postdata( $page_id );
-		ob_start();
-		the_content();
-		$content = ob_get_clean();
+		global $wp_query;
+		$the_is_singular = $wp_query->is_singular();
+
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$wp_query->is_singular = true;
+			ob_start();
+			the_content();
+			$content = ob_get_clean();
+			$wp_query->is_singular = $the_is_singular;
+		}
 		wp_reset_postdata();
+		// phpcs:enable
 
 		return str_replace(
 			'<div class="c-entry__body">',
-			'<div class="c-entry__body" id="snow-monkey-category-content-body"><div class="c-entry__content p-entry-content">' . $content . '</div>',
+			'<div class="c-entry__body post-' . esc_attr( $page_id ) . '" id="snow-monkey-category-content-body"><div class="c-entry__content p-entry-content">' . $content . '</div>',
 			$html
 		);
 	}
