@@ -77,7 +77,10 @@ class Front {
 
 		return str_replace(
 			'<div class="c-entry__body">',
-			'<div class="c-entry__body post-' . esc_attr( $page_id ) . '" id="snow-monkey-category-content-body"><div class="c-entry__content p-entry-content">' . $content . '</div>',
+			'<div class="c-entry__body">
+				<div class="post-' . esc_attr( $page_id ) . '" id="snow-monkey-archive-content-body">
+					<div class="c-entry__content p-entry-content">' . $content . '</div>
+				</div>',
 			$html
 		);
 	}
