@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Snow Monkey Category Content\n"
-"POT-Creation-Date: 2019-08-08 17:36+0900\n"
-"PO-Revision-Date: 2019-08-08 17:37+0900\n"
+"POT-Creation-Date: 2019-08-08 15:48+0900\n"
+"PO-Revision-Date: 2019-08-08 15:48+0900\n"
 "Last-Translator: inc2734 <inc@2inc.org>\n"
 "Language-Team: inc2734 <inc@2inc.org>\n"
 "Language: ja\n"
@@ -80,8 +80,8 @@ msgid "Remove top margin of the content"
 msgstr "コンテンツ上部の余白を削除"
 
 #. Plugin Name of the plugin/theme
-msgid "Snow Monkey Archive Content (ex-Snow Monkey Category Content)"
-msgstr "Snow Monkey Archive Content（旧 Snow Monkey Category Content）"
+msgid "Snow Monkey Category Content"
+msgstr "Snow Monkey Category Content"
 
 #. Description of the plugin/theme
 msgid "Require Snow Monkey v7 or more"
