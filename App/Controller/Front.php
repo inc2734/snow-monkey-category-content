@@ -20,6 +20,11 @@ class Front {
 			return;
 		}
 
+		$apply_paged = apply_filters( 'snow_monkey_category_content_apply_paged', ! is_paged() );
+		if ( ! $apply_paged ) {
+			return;
+		}
+
 		add_filter( 'snow_monkey_template_part_render', [ $this, '_replace_content' ], 10, 2 );
 		add_filter( 'document_title_parts', [ $this, '_replace_title' ] );
 
