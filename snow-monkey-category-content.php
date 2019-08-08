@@ -42,6 +42,8 @@ class Bootstrap {
 		add_action( 'init', [ $this, '_activate_autoupdate' ] );
 		add_action( 'snow_monkey_post_load_customizer', [ $this, '_load_customizer' ] );
 		add_action( 'wp', [ $this, '_front_hooks' ] );
+
+		new App\Controller\Edit();
 	}
 
 	/**

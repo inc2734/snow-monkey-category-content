@@ -68,4 +68,48 @@ class Helper {
 	public static function get_term_meta_name( $key, $term ) {
 		return 'snow-monkey-category-content-' . $term->taxonomy . '-' . $term->term_id . '-' . $key;
 	}
+
+	/**
+	 * Return array of assigned terms
+	 *
+	 * @return array
+	 */
+	protected static function get_assigned_terms() {
+		$term_metas = wp_cache_get( 'snow-monkey-category-content', 'terms' );
+		if ( false !== $term_metas ) {
+			return $term_metas;
+		}
+
+		$theme_mods = get_theme_mods();
+		$term_metas = [];
+
+		foreach ( $theme_mods as $key => $value ) {
+			if ( ! preg_match( '/^snow-monkey-category-content-(.+)-(\d+)-page-id$/', $key, $matches ) ) {
+				continue;
+			}
+
+			$term = get_term( $matches[2], $matches[1] );
+			if ( is_wp_error( $term ) ) {
+				continue;
+			}
+
+			$term_metas[ $value ] = $term;
+		}
+
+		wp_cache_set( 'snow-monkey-category-content', $term_metas, 'terms' );
+		return $term_metas;
+	}
+
+	/**
+	 * Return assigned term
+	 *
+	 * @param int $page_id
+	 * @return null|WP_Term
+	 */
+	public static function get_term_by_page_id( $page_id ) {
+		$assigned_terms = static::get_assigned_terms();
+		if ( isset( $assigned_terms[ $page_id ] ) ) {
+			return $assigned_terms[ $page_id ];
+		}
+	}
 }

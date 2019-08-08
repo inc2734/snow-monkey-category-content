@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Snow Monkey Category Content\n"
-"POT-Creation-Date: 2019-06-26 11:26+0900\n"
-"PO-Revision-Date: 2019-06-26 11:26+0900\n"
+"POT-Creation-Date: 2019-08-08 14:03+0900\n"
+"PO-Revision-Date: 2019-08-08 14:04+0900\n"
 "Last-Translator: inc2734 <inc@2inc.org>\n"
 "Language-Team: inc2734 <inc@2inc.org>\n"
 "Language: ja\n"
@@ -21,31 +21,41 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: App/Controller/Front.php:149
+#: App/Controller/Edit.php:39
+#, php-format
+msgid "Assigned %1$s: %2$s"
+msgstr "割り当て %1$s: %2$s"
+
+#: App/Controller/Front.php:188
 msgid "Edit the page used as content"
 msgstr "コンテンツ用ページを編集"
 
 #: customizer/design/sections/category/controls/display-title.php:19
+#: customizer/design/sections/custom-taxonomy/controls/display-title.php:23
 #: customizer/design/sections/post-tag/controls/display-title.php:19
 msgid "Display page title"
 msgstr "ページタイトルを表示"
 
 #: customizer/design/sections/category/controls/page-id.php:16
+#: customizer/design/sections/custom-taxonomy/controls/page-id.php:21
 #: customizer/design/sections/post-tag/controls/page-id.php:16
 msgid "None"
 msgstr "なし"
 
 #: customizer/design/sections/category/controls/page-id.php:27
+#: customizer/design/sections/custom-taxonomy/controls/page-id.php:32
 #: customizer/design/sections/post-tag/controls/page-id.php:27
 msgid "The page used as content"
 msgstr "コンテンツとして使用されるページ"
 
 #: customizer/design/sections/category/controls/page-id.php:28
+#: customizer/design/sections/custom-taxonomy/controls/page-id.php:33
 #: customizer/design/sections/post-tag/controls/page-id.php:28
 msgid "You can select from the draft pages."
 msgstr "下書きの固定ページから選択できます。"
 
 #: customizer/design/sections/category/controls/remove-top-margin.php:19
+#: customizer/design/sections/custom-taxonomy/controls/remove-top-margin.php:23
 #: customizer/design/sections/post-tag/controls/remove-top-margin.php:19
 msgid "Remove top margin of the content"
 msgstr "コンテンツ上部の余白を削除"
