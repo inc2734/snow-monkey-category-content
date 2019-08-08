@@ -14,6 +14,7 @@ class Edit {
 	public function __construct() {
 		add_filter( 'display_post_states', [ $this, '_display_assigned_term' ], 10, 2 );
 		add_filter( 'display_post_states', [ $this, '_display_assigned_custom_post_type' ], 10, 2 );
+		add_filter( 'display_post_states', [ $this, '_display_assigned_home' ], 10, 2 );
 	}
 
 	/**
@@ -67,6 +68,28 @@ class Edit {
 			esc_html__( 'Assigned %1$s archive', 'snow-monkey-category-content' ),
 			$custom_post_type->label
 		);
+
+		return $post_states;
+	}
+
+	/**
+	 * Add post status comment
+	 *
+	 * @param array $post_states
+	 * @param WP_Post $post
+	 * @return array
+	 */
+	public function _display_assigned_home( $post_states, $post ) {
+		if ( ! $this->_is_draft_page( $post->post_type, $post_states ) ) {
+			return $post_states;
+		}
+
+		$assigned = Helper::is_home_assigned( $post->ID );
+		if ( ! $assigned ) {
+			return $post_states;
+		}
+
+		$post_states[] = esc_html__( 'Assigned posts page', 'snow-monkey-category-content' );
 
 		return $post_states;
 	}

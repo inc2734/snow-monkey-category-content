@@ -77,6 +77,16 @@ class Helper {
 	}
 
 	/**
+	 * Return meta name of the posts page
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public static function get_home_meta_name( $key ) {
+		return 'snow-monkey-category-content-home-' . $key;
+	}
+
+	/**
 	 * Return meta name of the custom post type
 	 *
 	 * @param string $key
@@ -113,6 +123,10 @@ class Helper {
 		$term_metas = [];
 
 		foreach ( $theme_mods as $key => $value ) {
+			if ( 'snow-monkey-category-content-home-page-id' === $key ) {
+				continue;
+			}
+
 			if ( preg_match( '/^snow-monkey-category-content-custom-post-archive-(.+)-page-id$/', $key ) ) {
 				continue;
 			}
@@ -188,5 +202,15 @@ class Helper {
 		if ( isset( $assigned_custom_post_types[ $page_id ] ) ) {
 			return $assigned_custom_post_types[ $page_id ];
 		}
+	}
+
+	/**
+	 * Return true when posts page assigned
+	 *
+	 * @param int $page_id
+	 * @return null|object
+	 */
+	public static function is_home_assigned( $page_id ) {
+		return (int) get_theme_mod( static::get_home_meta_name( 'page-id' ) ) === (int) $page_id;
 	}
 }
