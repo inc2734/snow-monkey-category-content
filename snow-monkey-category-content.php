@@ -106,10 +106,6 @@ function uninstall_callback() {
 		remove_theme_mod( Helper::get_custom_post_archive_meta_name( 'display-title', $custom_post_type ) );
 		remove_theme_mod( Helper::get_custom_post_archive_meta_name( 'remove-top-margin', $custom_post_type ) );
 	}
-
-	remove_theme_mod( Helper::get_home_meta_name( 'page-id' ) );
-	remove_theme_mod( Helper::get_home_meta_name( 'display-title' ) );
-	remove_theme_mod( Helper::get_home_meta_name( 'remove-top-margin' ) );
 }
 
 register_uninstall_hook( __FILE__, 'uninstall_callback' );

@@ -16,7 +16,7 @@ class Front {
 			return;
 		}
 
-		if ( ! is_category() && ! is_tag() && ! is_tax() && ! is_post_type_archive() && ! is_home() ) {
+		if ( ! is_category() && ! is_tag() && ! is_tax() && ! is_post_type_archive() ) {
 			return;
 		}
 
@@ -43,7 +43,7 @@ class Front {
 	 * @return string
 	 */
 	public function _replace_content( $html, $slug ) {
-		if ( 'templates/view/archive' !== $slug && 'templates/view/home' !== $slug ) {
+		if ( 'templates/view/archive' !== $slug ) {
 			return $html;
 		}
 
@@ -53,8 +53,6 @@ class Front {
 		} elseif ( is_post_type_archive() ) {
 			$post_type_object = get_queried_object();
 			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
-		} elseif ( is_home() ) {
-			$page_id = get_theme_mod( Helper::get_home_meta_name( 'page-id' ) );
 		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
@@ -105,8 +103,6 @@ class Front {
 		} elseif ( is_post_type_archive() ) {
 			$post_type_object = get_queried_object();
 			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
-		} elseif ( is_home() ) {
-			$page_id = get_theme_mod( Helper::get_home_meta_name( 'page-id' ) );
 		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
@@ -147,8 +143,6 @@ class Front {
 		} elseif ( is_post_type_archive() ) {
 			$post_type_object = get_queried_object();
 			$display_title = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'display-title', $post_type_object->name ) );
-		} elseif ( is_home() ) {
-			$display_title = get_theme_mod( Helper::get_home_meta_name( 'display-title' ) );
 		}
 
 		if ( $display_title ) {
@@ -173,8 +167,6 @@ class Front {
 		} elseif ( is_post_type_archive() ) {
 			$post_type_object = get_queried_object();
 			$remove_top_margin = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'remove-top-margin', $post_type_object->name ) );
-		} elseif ( is_home() ) {
-			$remove_top_margin = get_theme_mod( Helper::get_home_meta_name( 'remove-top-margin' ) );
 		}
 
 		if ( ! $remove_top_margin ) {
@@ -199,8 +191,6 @@ class Front {
 		} elseif ( is_post_type_archive() ) {
 			$post_type_object = get_queried_object();
 			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
-		} elseif ( is_home() ) {
-			$page_id = get_theme_mod( Helper::get_home_meta_name( 'page-id' ) );
 		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
@@ -226,8 +216,6 @@ class Front {
 		} elseif ( is_post_type_archive() ) {
 			$post_type_object = get_queried_object();
 			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
-		} elseif ( is_home() ) {
-			$page_id = get_theme_mod( Helper::get_home_meta_name( 'page-id' ) );
 		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
