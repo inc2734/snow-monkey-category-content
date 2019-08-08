@@ -44,6 +44,14 @@ class Helper {
 			]
 		);
 
+		$assigned_terms = static::get_assigned_terms();
+
+		foreach ( $pages as $key => $page ) {
+			if ( isset( $assigned_terms[ $page->ID ] ) ) {
+				unset( $pages[ $key ] );
+			}
+		}
+
 		wp_cache_set( 'snow-monkey-category-content-draft-pages', $pages );
 		return $pages;
 	}
