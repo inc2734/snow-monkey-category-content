@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin name: Snow Monkey Category Content
+ * Plugin name: Snow Monkey Archive Content (ex-Snow Monkey Category Content)
  * Description: Require Snow Monkey v7 or more
  * Version: 0.2.0
  * Author: inc2734
