@@ -99,6 +99,13 @@ function uninstall_callback() {
 		remove_theme_mod( Helper::get_term_meta_name( 'display-title', $term ) );
 		remove_theme_mod( Helper::get_term_meta_name( 'remove-top-margin', $term ) );
 	}
+
+	$custom_post_types = Helper::get_custom_post_types();
+	foreach ( $custom_post_types as $custom_post_type ) {
+		remove_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $custom_post_type ) );
+		remove_theme_mod( Helper::get_custom_post_archive_meta_name( 'display-title', $custom_post_type ) );
+		remove_theme_mod( Helper::get_custom_post_archive_meta_name( 'remove-top-margin', $custom_post_type ) );
+	}
 }
 
 register_uninstall_hook( __FILE__, 'uninstall_callback' );

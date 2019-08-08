@@ -16,7 +16,7 @@ class Front {
 			return;
 		}
 
-		if ( ! is_category() && ! is_tag() && ! is_tax() ) {
+		if ( ! is_category() && ! is_tag() && ! is_tax() && ! is_post_type_archive() ) {
 			return;
 		}
 
@@ -42,8 +42,13 @@ class Front {
 			return $html;
 		}
 
-		$term    = get_queried_object();
-		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term    = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		} elseif ( is_post_type_archive() ) {
+			$post_type_object = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
+		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
 			return $html;
@@ -72,7 +77,10 @@ class Front {
 
 		return str_replace(
 			'<div class="c-entry__body">',
-			'<div class="c-entry__body post-' . esc_attr( $page_id ) . '" id="snow-monkey-category-content-body"><div class="c-entry__content p-entry-content">' . $content . '</div>',
+			'<div class="c-entry__body">
+				<div class="post-' . esc_attr( $page_id ) . '" id="snow-monkey-category-content-body">
+					<div class="c-entry__content p-entry-content">' . $content . '</div>
+				</div>',
 			$html
 		);
 	}
@@ -84,8 +92,13 @@ class Front {
 	 * @return array
 	 */
 	public function _replace_title( $title ) {
-		$term    = get_queried_object();
-		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term    = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		} elseif ( is_post_type_archive() ) {
+			$post_type_object = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
+		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
 			return $title;
@@ -119,8 +132,14 @@ class Front {
 	 * @return void
 	 */
 	public function _hide_page_title() {
-		$term = get_queried_object();
-		$display_title = get_theme_mod( Helper::get_term_meta_name( 'display-title', $term ) );
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term = get_queried_object();
+			$display_title = get_theme_mod( Helper::get_term_meta_name( 'display-title', $term ) );
+		} elseif ( is_post_type_archive() ) {
+			$post_type_object = get_queried_object();
+			$display_title = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'display-title', $post_type_object->name ) );
+		}
+
 		if ( $display_title ) {
 			return;
 		}
@@ -137,8 +156,14 @@ class Front {
 	 * @return void
 	 */
 	public function _remove_top_margin() {
-		$term = get_queried_object();
-		$remove_top_margin = get_theme_mod( Helper::get_term_meta_name( 'remove-top-margin', $term ) );
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term = get_queried_object();
+			$remove_top_margin = get_theme_mod( Helper::get_term_meta_name( 'remove-top-margin', $term ) );
+		} elseif ( is_post_type_archive() ) {
+			$post_type_object = get_queried_object();
+			$remove_top_margin = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'remove-top-margin', $post_type_object->name ) );
+		}
+
 		if ( ! $remove_top_margin ) {
 			return;
 		}
@@ -155,8 +180,13 @@ class Front {
 	 * @return void
 	 */
 	public function _remove_term_description() {
-		$term    = get_queried_object();
-		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term    = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		} elseif ( is_post_type_archive() ) {
+			$post_type_object = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
+		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
 			return;
@@ -175,8 +205,13 @@ class Front {
 	 * @return void
 	 */
 	public function _admin_bar_menu( $wp_adminbar ) {
-		$term    = get_queried_object();
-		$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term    = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_term_meta_name( 'page-id', $term ) );
+		} elseif ( is_post_type_archive() ) {
+			$post_type_object = get_queried_object();
+			$page_id = get_theme_mod( Helper::get_custom_post_archive_meta_name( 'page-id', $post_type_object->name ) );
+		}
 
 		if ( ! $page_id || 'draft' !== get_post_status( $page_id ) ) {
 			return;

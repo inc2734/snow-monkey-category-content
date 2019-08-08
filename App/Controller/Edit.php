@@ -12,7 +12,8 @@ use Snow_Monkey\Plugin\CategoryContent\App\Helper;
 class Edit {
 
 	public function __construct() {
-		add_filter( 'display_post_states', [ $this, '_display_post_states' ], 10, 2 );
+		add_filter( 'display_post_states', [ $this, '_display_assigned_term' ], 10, 2 );
+		add_filter( 'display_post_states', [ $this, '_display_assigned_custom_post_type' ], 10, 2 );
 	}
 
 	/**
@@ -22,8 +23,8 @@ class Edit {
 	 * @param WP_Post $post
 	 * @return array
 	 */
-	public function _display_post_states( $post_states, $post ) {
-		if ( 'page' !== $post->post_type || ! array_key_exists( 'draft', $post_states ) ) {
+	public function _display_assigned_term( $post_states, $post ) {
+		if ( ! $this->_is_draft_page( $post->post_type, $post_states ) ) {
 			return $post_states;
 		}
 
@@ -42,5 +43,35 @@ class Edit {
 		);
 
 		return $post_states;
+	}
+
+	/**
+	 * Add post status comment
+	 *
+	 * @param array $post_states
+	 * @param WP_Post $post
+	 * @return array
+	 */
+	public function _display_assigned_custom_post_type( $post_states, $post ) {
+		if ( ! $this->_is_draft_page( $post->post_type, $post_states ) ) {
+			return $post_states;
+		}
+
+		$custom_post_type = Helper::get_custom_post_type_by_page_id( $post->ID );
+		if ( ! $custom_post_type ) {
+			return $post_states;
+		}
+
+		$post_states[] = sprintf(
+			/* translators: %1: Taxonomy label, %2: Term name */
+			esc_html__( 'Assigned %1$s archive', 'snow-monkey-category-content' ),
+			$custom_post_type->label
+		);
+
+		return $post_states;
+	}
+
+	protected function _is_draft_page( $post_type, $post_states ) {
+		return 'page' === $post_type && array_key_exists( 'draft', $post_states );
 	}
 }
